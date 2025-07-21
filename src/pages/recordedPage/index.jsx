@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Header from '../../components/header';
 import { RECORDED_HEADER as header } from '../../config/configData';
-import FilterSorting from '../../layout/recorded-layout/filterSortingSorting';
+import FilterSorting from '../../layout/recorded-layout/filterSorting';
 import AllRecordedSessions from '../../layout/recorded-layout/allRecordedSessions';
 import { recordedDummyData as recordedData } from '../../data/recordedData';
 import Icon from '@mdi/react';
