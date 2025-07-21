@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply font-inter;
+  }
+
+  body {
+    @apply scroll-smooth;
+  }
+
+  * {
+    @apply box-border m-0 p-0;
+  }
+
+  .flex-100 {
+    flex: 0 0 100%;
+  }
+
+  .flex-80 {
+    flex: 0 0 80%;
+  }
+
+  .flex-70 {
+    flex: 0 0 70%;
+  }
+
+  .flex-60 {
+    flex: 0 0 60%;
+  }
+
+  .flex-50 {
+    flex: 0 0 50%;
+  }
+
+  .flex-40 {
+    flex: 0 0 40%;
+  }
+
+  .flex-30 {
+    flex: 0 0 30%;
+  }
+
+  .flex-25 {
+    flex: 0 0 31%;
+  }
+
+  .flex-20 {
+    flex: 0 0 20%;
+  }
+
+  .flex-none {
+    flex: 0 0 0;
+  }
+
+  .shadow-bottom {
+    box-shadow: 0 3px 6px rgba(24, 24, 27, 0.1);
+  }
+
+  .shadow-wide {
+    box-shadow: 0 0 8px rgba(24, 24, 27, 0.15);
+  }
+
+  .shadow-wide-white {
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+  }
+}
+
+@layer utilities {
+  .custom-scrollbar:state(webkit-scrollbar) {
+    @apply w-[2px] h-auto;
+  }
+
+  .custom-scrollbar:state(webkit-scrollbar-track) {
+    @apply bg-white;
+  }
+
+  .custom-scrollbar:state(webkit-scrollbar-thumb) {
+    @apply bg-stone-300 rounded-md border border-white;
+  }
+
+  .custom-scrollbar:state(webkit-scrollbar-thumb):hover {
+    @apply bg-stone-400;
+  }
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #d6d3d1 #fff;
+  }
+}
