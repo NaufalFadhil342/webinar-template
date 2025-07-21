@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { detectCardTypes, formatCardNumber } from '../../../utils/helper';
+import { detectCardTypes, formatCardNumber } from '../../../utils/helper/getCardNumber';
 
 const CreditDebitCard = ({ paymentMethod, handlePaymentMethod, errors }) => {
     const cardErrors = errors.cardDetails || {};
