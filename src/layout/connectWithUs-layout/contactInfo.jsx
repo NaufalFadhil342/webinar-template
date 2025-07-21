@@ -24,7 +24,7 @@ const ContactInfo = ({ label, text, link, icon, dark, map, to, blank }) => {
 ContactInfo.propTypes = {
     label: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    link: PropTypes.string.isRequired,
+    link: PropTypes.string,
     icon: PropTypes.string.isRequired,
     dark: PropTypes.bool,
     map: PropTypes.bool,

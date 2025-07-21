@@ -33,17 +33,16 @@ const ConnectWithUs = ({ dark }) => {
                         />
                     </div>
                 </div>
-
-                <div className="w-full h-auto flex flex-col gap-4">
-                    <h2 className={`text-xl font-semibold ${dark ? "text-white" : "text-zinc-900"}`}>Follow Us</h2>
+                <div className="w-full h-auto flex justify-between gap-4">
+                    <h2 className={`text-3xl font-semibold ${dark ? "text-white" : "text-zinc-900"}`}>Follow Us :</h2>
                     <div className="flex gap-4">
-                        <button onClick={() => window.scrollTo(0, 0)} type="button" className={`p-2 rounded-full hover:bg-opacity-10 transition-colors ${dark ? "hover:bg-white text-zinc-300" : "hover:bg-black text-zinc-600"}`} aria-label="linkedin">
+                        <button onClick={() => window.scrollTo(0, 0)} type="button" className={`p-2 rounded-full hover:bg-opacity-10 transition-colors ${dark ? "hover:bg-white text-zinc-300" : "hover:bg-black text-zinc-400"}`} aria-label="linkedin">
                             <Icon path={mdiLinkedin} size={1} />
                         </button>
-                        <button onClick={() => window.scrollTo(0, 0)} type="button" className={`p-2 rounded-full hover:bg-opacity-10 transition-colors ${dark ? "hover:bg-white text-zinc-300" : "hover:bg-black text-zinc-600"}`} aria-label="twitter">
+                        <button onClick={() => window.scrollTo(0, 0)} type="button" className={`p-2 rounded-full hover:bg-opacity-10 transition-colors ${dark ? "hover:bg-white text-zinc-300" : "hover:bg-black text-zinc-400"}`} aria-label="twitter">
                             <Icon path={mdiTwitter} size={1} />
                         </button>
-                        <button onClick={() => window.scrollTo(0, 0)} type="button" className={`p-2 rounded-full hover:bg-opacity-10 transition-colors ${dark ? "hover:bg-white text-zinc-300" : "hover:bg-black text-zinc-600"}`} aria-label="facebook">
+                        <button onClick={() => window.scrollTo(0, 0)} type="button" className={`p-2 rounded-full hover:bg-opacity-10 transition-colors ${dark ? "hover:bg-white text-zinc-300" : "hover:bg-black text-zinc-400"}`} aria-label="facebook">
                             <Icon path={mdiFacebook} size={1} />
                         </button>
                     </div>
