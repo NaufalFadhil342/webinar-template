@@ -12,7 +12,7 @@ const WishlistPage = ({ dark }) => {
                 description={header.description}
                 dark={dark}
             />
-            <section aria-labelledby="Wishlist content">
+            <section className="w-full h-auto" aria-labelledby="Wishlist content">
                 <div id="Wishlist content">
                     <Wishlist dark={dark} />
                 </div>
