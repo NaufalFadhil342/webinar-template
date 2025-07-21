@@ -4,10 +4,10 @@ import { BLOG_DETAIL_HEADER as blogDetailHeader } from "../../config/configData"
 import { DUMMY_ARTICLES as articles } from "../../data/blogData";
 import { faker } from "@faker-js/faker";
 
-import Categories from "../../layout/blog/sideContent/categories";
-import NewsLetter from "../../layout/blog/sideContent/news-letter";
-import PopularPost from "../../layout/blog/sideContent/popular-post";
-import Tags from "../../layout/blog/sideContent/tags";
+import Categories from "../../layout/blog-layout/sideContent/categories";
+import NewsLetter from "../../layout/blog-layout/sideContent/news-letter";
+import PopularPost from "../../layout/blog-layout/sideContent/popular-post";
+import Tags from "../../layout/blog-layout/sideContent/tags";
 import PropTypes from "prop-types";
 import Loading from "../../UI/loading";
 import Header from '../../components/header';
