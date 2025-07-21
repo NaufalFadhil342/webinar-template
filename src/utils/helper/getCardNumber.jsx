@@ -84,4 +84,4 @@ function validateCardNumber(cardNumber) {
     return sum % 10 === 0;
 };
 
-export { validateCardNumber, validateExpiryDate, formatCardNumber };
+export { validateCardNumber, validateExpiryDate, formatCardNumber, detectCardTypes };
