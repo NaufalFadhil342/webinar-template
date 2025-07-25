@@ -1,7 +1,7 @@
 import WishlistDetailStats from './wishlistDetailStats';
 import WishlistDetailItems from './wishlistDetailItems';
 import { useSessions } from '../../hooks/useSessions';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import PropTypes from 'prop-types';
 
 const WishlistDetail = ({ dark }) => {
