@@ -1,7 +1,7 @@
 import Icon from '@mdi/react';
 import { mdiMapMarkerOutline, mdiClockOutline } from '@mdi/js';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const CareersItem = ({ dark, career }) => {
     return (

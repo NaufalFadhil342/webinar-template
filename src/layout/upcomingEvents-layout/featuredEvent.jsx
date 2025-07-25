@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Icon from '@mdi/react';
 import { mdiCalendarMonth, mdiClockOutline, mdiCurrencyUsd, mdiMapMarker } from '@mdi/js';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useSessions } from '../../hooks/useSessions';
 
 const FeaturedEvent = ({ event, dark }) => {

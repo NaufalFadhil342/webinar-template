@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { useState } from 'react';
 import Form from "../../../UI/form";
 import { useTopics } from '../../../hooks/useTopics';

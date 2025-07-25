@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router";
 import Icon from '@mdi/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { mdiBellOutline, mdiMenu, mdiMenuDown, mdiEqualizer, mdiAccountCircle, mdiMagnify } from '@mdi/js';

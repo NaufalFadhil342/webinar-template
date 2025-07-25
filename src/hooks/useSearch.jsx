@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router';
 
 export const useSearch = (options = {}) => {
     const [searchInput, setSearchInput] = useState('');

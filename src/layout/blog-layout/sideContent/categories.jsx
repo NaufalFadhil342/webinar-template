@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { DUMMY_CATEGORIES } from "../../../data/blogData";
 import PropTypes from "prop-types";
 

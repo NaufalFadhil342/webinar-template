@@ -45,7 +45,7 @@ const paymentValidationRules = {
     rules: {
       cardNumber: {
         required: true,
-        validate: (value, state) => {
+        validate: (value) => {
           // Only perform Luhn validation in production mode
           const isProd = import.meta.env.VITE_NODE_ENV === 'production';
           const digitsOnly = value.replace(/\D/g, '');

@@ -1,5 +1,6 @@
 /** 
  * In this component we create multiple form style.
+ * Explain how to integrate the forms with API
 */
 
 import React, { useCallback, useEffect, useState, useMemo } from 'react';

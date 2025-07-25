@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import PropTypes from 'prop-types';
 import { supportFAQ } from "../../../data/supportData";
 import {
@@ -82,8 +82,8 @@ const Support = ({ dark }) => {
                             <button
                                 onClick={handleRetry}
                                 className={`mt-3 px-4 py-2 rounded text-white transition-colors ${dark
-                                        ? 'bg-blue-600 hover:bg-blue-700'
-                                        : 'bg-blue-500 hover:bg-blue-600'
+                                    ? 'bg-blue-600 hover:bg-blue-700'
+                                    : 'bg-blue-500 hover:bg-blue-600'
                                     }`}
                             >
                                 Try Again
@@ -93,8 +93,8 @@ const Support = ({ dark }) => {
                             <Link
                                 to="/contactus"
                                 className={`mt-3 inline-block px-4 py-2 rounded text-white transition-colors ${dark
-                                        ? 'bg-secondary hover:bg-[#eb4770]'
-                                        : 'bg-primary hover:bg-dark'
+                                    ? 'bg-secondary hover:bg-[#eb4770]'
+                                    : 'bg-primary hover:bg-dark'
                                     }`}
                             >
                                 Contact Support
@@ -115,8 +115,8 @@ const Support = ({ dark }) => {
 
     const renderEmptyState = () => (
         <div className={`w-full p-8 text-center rounded-lg border ${dark
-                ? 'bg-zinc-800 border-zinc-700 text-zinc-300'
-                : 'bg-gray-50 border-gray-200 text-zinc-600'
+            ? 'bg-zinc-800 border-zinc-700 text-zinc-300'
+            : 'bg-gray-50 border-gray-200 text-zinc-600'
             }`}>
             <div className="text-4xl mb-4">📋</div>
             <h3 className={`text-xl font-semibold mb-2 ${dark ? 'text-white' : 'text-zinc-900'}`}>
@@ -198,8 +198,8 @@ const Support = ({ dark }) => {
                     to='/contactus'
                     onClick={supportLinkAddress}
                     className={`w-fit h-9 px-4 mt-2 flex items-center rounded ${dark
-                            ? "bg-secondary hover:bg-[#eb4770]"
-                            : "bg-primary hover:bg-dark"
+                        ? "bg-secondary hover:bg-[#eb4770]"
+                        : "bg-primary hover:bg-dark"
                         } text-white transition-all duration-150`}
                     aria-label="Contact support team"
                 >

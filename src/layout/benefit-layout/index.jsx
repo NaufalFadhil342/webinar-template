@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { dummyBenefitData } from "../../data/benefitData";
 import BenefitDetail from './benefitDetail';
 import PropTypes from 'prop-types';

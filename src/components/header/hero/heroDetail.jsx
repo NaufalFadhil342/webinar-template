@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { motion } from 'motion/react';
 import Icon from '@mdi/react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
     mdiClockOutline,
     mdiChatProcessingOutline,

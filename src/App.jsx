@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router';
 import Navbar from './components/navbar';
 import Loading from './UI/loading';
 import AddComment from './layout/discuss-layout/main-content/addComment';

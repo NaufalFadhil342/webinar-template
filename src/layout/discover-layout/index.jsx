@@ -1,6 +1,6 @@
 import Icon from "@mdi/react";
 import { mdiChevronRight } from '@mdi/js';
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Link as ScrollLink } from "react-scroll";
 import PropTypes from "prop-types";
 import discoverImg from '../../assets/team/man2.jpg';

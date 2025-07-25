@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import Header from "../../components/header";
 import { EVENTS_HEADER as events } from "../../config/configData";
 import PropTypes from 'prop-types';

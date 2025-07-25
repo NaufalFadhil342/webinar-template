@@ -1,7 +1,7 @@
 import { teamData as teams } from "../../data/teamData";
 import PropTypes from 'prop-types';
 import TeamDetail from "./teamDetail";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const TeamMates = ({ dark }) => {
     const navigate = useNavigate();

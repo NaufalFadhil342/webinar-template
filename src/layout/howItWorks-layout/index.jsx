@@ -1,7 +1,7 @@
 import HowItWorksDetail from "./howItWorksDetail";
 import { dummyGuideData as guides } from "../../data/guideData";
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const HowItWorks = ({ dark }) => {
     return (

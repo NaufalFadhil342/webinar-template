@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router';
 import PropTypes from 'prop-types';
 import AddNewTopics from "./main-content/addNewTopics";
 import Topics from "./main-content/topics";

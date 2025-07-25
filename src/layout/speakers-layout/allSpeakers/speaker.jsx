@@ -1,7 +1,7 @@
 import Icon from "@mdi/react";
 import { mdiTwitter, mdiLinkedin, mdiInstagram } from '@mdi/js';
 import PropTypes from 'prop-types';
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const Speaker = ({ selectedSpeaker, setSpeaker, dark }) => {
     const handleSpeaker = () => {

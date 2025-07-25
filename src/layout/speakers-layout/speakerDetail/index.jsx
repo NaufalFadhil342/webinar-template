@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router";
 import { dummyAllSpeakers as allSpeakers } from "../../../data/speakersData";
 import PropTypes from 'prop-types';
 import Header from "../../../components/header";

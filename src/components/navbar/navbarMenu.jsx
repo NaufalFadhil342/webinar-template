@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import NavLinkItem from './NavLinkItem';
 import Dropdown from './Dropdown';
 import PropTypes from 'prop-types';

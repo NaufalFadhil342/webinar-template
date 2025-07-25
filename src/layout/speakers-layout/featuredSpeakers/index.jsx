@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import Icon from '@mdi/react';
 import { mdiTwitter, mdiLinkedin, mdiInstagram } from '@mdi/js';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { dummyFeaturedSpeakers as speakers } from '../../../data/speakersData';
 import useEmblaCarousel from 'embla-carousel-react';
 import PropTypes from 'prop-types';

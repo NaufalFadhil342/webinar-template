@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import Icon from "@mdi/react";
 import { mdiChevronRight } from "@mdi/js";
 import { motion } from "motion/react";

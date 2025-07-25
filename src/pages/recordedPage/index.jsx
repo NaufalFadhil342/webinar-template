@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import Header from '../../components/header';
 import { RECORDED_HEADER as header } from '../../config/configData';
 import FilterSorting from '../../layout/recorded-layout/filterSorting';

@@ -1,6 +1,6 @@
 import Icon from '@mdi/react';
 import { mdiChevronRight } from '@mdi/js';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 const ContactInfo = ({ label, text, link, icon, dark, map, to, blank }) => {

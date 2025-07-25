@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router";
 import { BLOG_DETAIL_HEADER as blogDetailHeader } from "../../config/configData";
 import { DUMMY_ARTICLES as articles } from "../../data/blogData";
 import { faker } from "@faker-js/faker";
