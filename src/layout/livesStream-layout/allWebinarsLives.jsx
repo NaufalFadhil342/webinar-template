@@ -5,7 +5,7 @@ import Icon from '@mdi/react';
 import { mdiPlay, mdiClock, mdiAccountGroup, mdiBookAlphabet } from '@mdi/js';
 import WebinarEmptyState from "./webinarEmptyState";
 
-const AllWebinarsLives = ({ webinars, currentFilters, onResetFilters, onViewAll, dark }) => {
+const AllWebinarsLives = ({ webinars, currentFilters, onViewAll, dark }) => {
     const [showPlay, setShowPlay] = useState(null);
 
     const handleShowPlay = (webinarId) => {
@@ -41,7 +41,6 @@ const AllWebinarsLives = ({ webinars, currentFilters, onResetFilters, onViewAll,
     if (!webinars || webinars.length === 0) {
         return (
             <WebinarEmptyState
-                onResetFilters={onResetFilters}
                 onViewAll={onViewAll}
                 variant={getEmptyStateVariant()}
                 dark={dark}

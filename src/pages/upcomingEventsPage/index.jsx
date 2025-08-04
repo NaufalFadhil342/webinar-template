@@ -139,7 +139,6 @@ const UpcomingEventsPage = ({ dark }) => {
                         onSearchChange={handleSearchChange}
                         onCategoryChange={handleCategoryChange}
                         onDateChange={handleDateChange}
-                        onClearFilters={handleClearFilters}
                     />
                     {shouldShowError ? (
                         <NoResultFound />

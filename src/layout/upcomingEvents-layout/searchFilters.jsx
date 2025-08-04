@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import Icon from '@mdi/react';
-import { mdiFilter } from '@mdi/js';
 import FilterDropdown from './filterDropdown';
+import Icon from '@mdi/react';
+import { mdiFilterVariant, mdiMagnify } from '@mdi/js';
 
 const SearchFilters = ({
     dark,
@@ -41,22 +41,23 @@ const SearchFilters = ({
 
     return (
         <section className='w-full h-auto px-[8%]'>
-            <div className={`w-full p-6 rounded-xl ${dark ? 'bg-zinc-800' : 'bg-white'} shadow-wide flex flex-col lg:flex-row gap-4`}>
-                <div className="w-full flex items-center gap-2 px-4 py-2 rounded-md bg-transparent border border-gray-300 dark:border-zinc-700">
+            <div className={`w-full rounded-xl flex flex-col items-center lg:flex-row gap-4`}>
+                <div className="w-full flex items-center gap-2 py-4 px-3 rounded-xl shadow-[0_3px_6px_rgba(28,28,28,0.1)] bg-transparent bg-white">
                     <input
                         type="text"
                         placeholder="Search events..."
                         value={searchTerm}
                         onChange={handleSearchChange}
-                        className={`w-full h-auto bg-transparent outline-none ${dark ? 'text-white' : 'text-zinc-900'}`}
+                        className={`w-full h-auto bg-transparent outline-none ${dark ? 'text-white ' : 'text-zinc-900'}`}
                     />
+                    <Icon path={mdiMagnify} size={1.3} className='text-gray-400' />
                 </div>
-                <div className="w-full flex flex-col gap-4 xm:flex-row sm:justify-between lg:justify-start">
-                    <div className="flex items-center gap-2">
-                        <Icon path={mdiFilter} size={0.85} className={dark ? 'text-zinc-400' : 'text-zinc-500'} />
-                        <span className={dark ? 'text-zinc-300' : 'text-zinc-700'}>Filter:</span>
-                    </div>
-                    <div className='w-full h-auto flex items-center justify-end gap-2'>
+                <div className='w-full h-auto flex items-center justify-between'>
+                    <span className='text-lg text-zinc-600 hidden sm:flex items-center gap-1'>
+                        <Icon path={mdiFilterVariant} size={0.8} className='-translate-y-[2px]' />
+                        <>Filter</>
+                    </span>
+                    <div className='w-full h-auto flex flex-col xm:flex-row items-center justify-start sm:justify-end gap-2'>
                         <FilterDropdown
                             options={categories}
                             selected={selectedCategory}

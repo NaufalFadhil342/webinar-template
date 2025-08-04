@@ -46,7 +46,7 @@ const ResultFilter = ({
     return (
         <AnimatePresence>
             {showFilter && (
-                <section className="w-full h-screen fixed z-10 left-0 top-0" aria-label='filter content'>
+                <aside className="w-full h-screen fixed z-10 left-0 top-0" aria-label='filter content'>
                     <motion.div
                         className={`w-full h-full ${dark ? 'bg-zinc-900/25' : 'bg-zinc-200/25'} backdrop-blur opacity-0`}
                         onClick={closeFilter}
@@ -137,7 +137,7 @@ const ResultFilter = ({
                             />
                         </div>
                     </motion.div>
-                </section>
+                </aside>
             )}
         </AnimatePresence>
     )

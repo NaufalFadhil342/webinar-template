@@ -57,7 +57,7 @@ const WebinarLivePage = ({ dark }) => {
         setCurrentFilters(defaultFilters);
     }, []);
 
-    // We process the webinars based on current filters
+    // We process the webinars based on the current filters
     const filteredAndSortedWebinars = useMemo(() => {
         console.log('=== FILTER DEBUG ===');
         console.log('Raw webinars:', webinars);

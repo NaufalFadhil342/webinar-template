@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 
 const WebinarEmptyState = ({
-    onResetFilters,
     onViewAll,
     variant = 'filter', // 'filter', 'no-data', 'live'
     dark
@@ -99,19 +98,11 @@ const WebinarEmptyState = ({
                 {/* Action buttons */}
                 {config.showButtons && (
                     <motion.div
-                        className="flex flex-col sm:flex-row gap-4 justify-center"
+                        className="flex gap-4 justify-center"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, delay: 0.5 }}
                     >
-                        <motion.button
-                            className={`px-6 py-3 ${dark ? 'bg-secondary hover:bg-darkSecondary' : 'bg-primary hover:bg-darkPrimary'} text-white rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md`}
-                            onClick={onResetFilters}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            Remove All Filter
-                        </motion.button>
                         <motion.button
                             className={`px-6 py-3 border rounded-lg font-medium ${dark ? 'text-zinc-300 hover:bg-zinc-800 border-zinc-800' : 'text-zinc-600 border-zinc-300 hover:bg-zinc-100'} transition-all duration-200`}
                             onClick={onViewAll}

@@ -66,9 +66,9 @@ const FilterDropdown = ({
     };
 
     return (
-        <div className="relative" ref={filterDropdownRef}>
+        <div className="w-auto h-auto relative" ref={filterDropdownRef}>
             <button
-                className={`flex items-center justify-between w-auto h-auto gap-2 px-4 py-2 rounded-md ${dark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-gray-100'} border ${dark ? 'border-zinc-700' : 'border-gray-200'}`}
+                className={`flex items-center justify-between w-full h-auto gap-2 px-4 py-2 rounded-md ${dark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-gray-100'} border ${dark ? 'border-zinc-700' : 'border-gray-200'}`}
                 onClick={onToggle}
                 aria-expanded={isOpen}
                 aria-haspopup="listbox"
@@ -121,7 +121,6 @@ FilterDropdown.propTypes = {
     onChange: PropTypes.func,
     label: PropTypes.string,
     dark: PropTypes.bool,
-    onClear: PropTypes.func.isRequired,
     isOpen: PropTypes.bool.isRequired,
     onToggle: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
