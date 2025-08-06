@@ -10,7 +10,7 @@ const UserAuth = ({ dark }) => {
     const [login, setLogin] = useState(true);
 
     return (
-        <div className='w-full h-auto flex flex-col gap-12 px-[8%] py-24'>
+        <section className='w-full h-auto flex flex-col gap-12 px-[8%] py-24'>
             <div className='w-full h-auto flex justify-end'>
                 <p className={`${dark ? "text-zinc-300" : "text-zinc-600"} flex items-center gap-2`}>
                     {login ? "Don't have an account?" : "Already have an account?"}
@@ -41,7 +41,7 @@ const UserAuth = ({ dark }) => {
                     <Link className={`underline transition-all duration-150 ${dark ? "text-zinc-300 hover:text-secondary" : "text-zinc-600 hover:text-primary"}`}>Forgot your password?</Link>
                 </div>
             </div>
-        </div>
+        </section>
     )
 };
 

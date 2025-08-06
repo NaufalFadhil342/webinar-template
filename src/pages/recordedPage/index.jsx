@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import Header from '../../components/header';
 import { RECORDED_HEADER as header } from '../../config/configData';
@@ -8,6 +8,11 @@ import { recordedDummyData as recordedData } from '../../data/recordedData';
 import Icon from '@mdi/react';
 import { mdiMagnify } from '@mdi/js';
 import { motion } from 'motion/react';
+import ToTop from '../../UI/toTop';
+import PropTypes from 'prop-types';
+import { usePageLoading } from '../../hooks/usePageLoading';
+import LoadingOverlay from '../../components/loadingOverlay';
+import { failLoadData as message } from '../../config/configData';
 
 // Helper function for handle error
 import { getErrorMessage } from '../../UI/errors';
@@ -15,12 +20,18 @@ import { getErrorMessage } from '../../UI/errors';
 // Helper function for filtering the recorded 
 import { getRecordsFilter } from '../../utils/helper/getRecordsFilter';
 
-import ToTop from '../../UI/toTop';
-import PropTypes from 'prop-types';
 
 const RecordedPage = ({ dark }) => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [searchInput, setSearchInput] = useState('');
+    const [, setPageData] = useState(null);
+
+    const { isLoading, stopLoading } = usePageLoading({
+        initialDelay: 0,
+        minDuration: 300,
+        maxDuration: 1200,
+        autoStart: true
+    })
 
     const getDefaultFilters = () => ({
         sort: 'Most Recent',
@@ -31,6 +42,17 @@ const RecordedPage = ({ dark }) => {
     })
 
     const [currentFilters, setCurrentFilters] = useState(getDefaultFilters);
+
+    const fetchPageData = useCallback(async () => {
+        try {
+            await new Promise(resolve => setTimeout(resolve, 800))
+            setPageData({ loaded: true })
+        } catch (error) {
+            console.error(message.error, error)
+        } finally {
+            stopLoading()
+        }
+    }, [stopLoading])
 
     // checking filter by search using parameters
     useEffect(() => {
@@ -50,9 +72,10 @@ const RecordedPage = ({ dark }) => {
 
         const searchFromUrl = searchParams.get('search') || '';
 
+        fetchPageData()
         setCurrentFilters(filtersFromParams);
         setSearchInput(searchFromUrl);
-    }, [searchParams]);
+    }, [searchParams, fetchPageData]);
 
     const updateSearchParams = useCallback((filters) => {
         const params = new URLSearchParams();
@@ -182,32 +205,35 @@ const RecordedPage = ({ dark }) => {
     };
 
     return (
-        <main className='w-full h-auto'>
-            <Header
-                dark={dark}
-                tagline='Recorded'
-                ariaLabel='Recorded header'
-                title={header.title}
-                description={header.description}
-            />
-            <section className='w-full h-auto flex flex-col gap-10' aria-label='Recorded Content'>
-                <FilterSorting
+        <Fragment>
+            <LoadingOverlay isLoading={isLoading} dark={dark} />
+            <main className='w-full h-auto'>
+                <Header
                     dark={dark}
-                    searchInput={searchInput}
-                    handleSearchInputChange={handleSearchInputChange}
-                    handleSearchKeyDown={handleSearchKeyDown}
-                    handleSearchButtonClick={handleSearchButtonClick}
-                    handleFilterChange={handleFilterChange}
-                    currentFilters={currentFilters}
+                    tagline='Recorded'
+                    ariaLabel='Recorded header'
+                    title={header.title}
+                    description={header.description}
                 />
-                {filteredRecorded.length === 0 ? (
-                    <NoResultsFound />
-                ) : (
-                    <AllRecordedSessions recordedData={filteredRecorded} dark={dark} />
-                )}
-            </section>
-            <ToTop dark={dark} />
-        </main>
+                <section className='w-full h-auto flex flex-col gap-10' aria-label='Recorded Content'>
+                    <FilterSorting
+                        dark={dark}
+                        searchInput={searchInput}
+                        handleSearchInputChange={handleSearchInputChange}
+                        handleSearchKeyDown={handleSearchKeyDown}
+                        handleSearchButtonClick={handleSearchButtonClick}
+                        handleFilterChange={handleFilterChange}
+                        currentFilters={currentFilters}
+                    />
+                    {filteredRecorded.length === 0 ? (
+                        <NoResultsFound />
+                    ) : (
+                        <AllRecordedSessions recordedData={filteredRecorded} dark={dark} />
+                    )}
+                </section>
+                <ToTop dark={dark} />
+            </main>
+        </Fragment>
     )
 };
 

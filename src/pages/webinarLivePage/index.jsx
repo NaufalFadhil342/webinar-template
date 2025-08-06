@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect, Fragment } from 'react';
 import Header from '../../components/header';
 import { WEBINARLIVE_HEADER as header } from '../../config/configData';
 import PropTypes from 'prop-types';
@@ -9,6 +9,9 @@ import { languageDummyData as languages } from '../../data/languagesData';
 import AllWebinarsLives from '../../layout/livesStream-layout/allWebinarsLives';
 import { getFilteredWebinars, validateLanguageSelection } from '../../utils/helper/getFilteredWebinars';
 import ToTop from '../../UI/toTop';
+import { usePageLoading } from '../../hooks/usePageLoading';
+import LoadingOverlay from '../../components/loadingOverlay';
+import { failLoadData as message } from '../../config/configData';
 
 const WebinarLivePage = ({ dark }) => {
     const [currentFilters, setCurrentFilters] = useState({
@@ -24,6 +27,14 @@ const WebinarLivePage = ({ dark }) => {
             isAllSelected: true,
             selectedCount: 1
         }
+    });
+    const [, setPageData] = useState(null);
+
+    const { isLoading, stopLoading } = usePageLoading({
+        initialDelay: 0,
+        minDuration: 400,
+        maxDuration: 1400,
+        autoStart: true
     });
 
     // This callback function will be passed to LiveFilter
@@ -73,35 +84,54 @@ const WebinarLivePage = ({ dark }) => {
         return result;
     }, [currentFilters]);
 
+    useEffect(() => {
+        const fetchPageData = async () => {
+            try {
+                await new Promise(resolve => setTimeout(resolve, 800));
+                setPageData({ loaded: true });
+            } catch (error) {
+                console.error(message.error, error);
+            } finally {
+                stopLoading();
+            }
+        }
+
+        fetchPageData();
+    }, [stopLoading]);
+
     return (
-        <main className='w-full h-auto'>
-            <Header
-                ariaLabel='Webinars live header'
-                dark={dark}
-                title={header.title}
-                description={header.description}
-            />
-            <section aria-labelledby='Webinars live content'>
-                <div className='w-full h-auto px-[8%] pb-24 flex flex-col gap-10' id='Webinars live content'>
-                    <PopularWebinars dark={dark} webinars={webinars} />
-                    <LiveFilter
-                        onFiltersChange={handleFiltersChange}
-                        initialSort="Most Relevant"
-                        languages={languages}
-                        dark={dark}
-                    />
-                    <AllWebinarsLives
-                        webinars={filteredAndSortedWebinars}
-                        currentFilters={currentFilters}
-                        totalCount={webinars?.length || 0}
-                        filteredCount={filteredAndSortedWebinars.length}
-                        onViewAll={handleViewAllWebinars}
-                        dark={dark}
-                    />
-                </div>
-            </section>
-            <ToTop dark={dark} />
-        </main>
+        <Fragment>
+            <LoadingOverlay isLoading={isLoading} dark={dark} />
+
+            <main className='w-full h-auto'>
+                <Header
+                    ariaLabel='Webinars live header'
+                    dark={dark}
+                    title={header.title}
+                    description={header.description}
+                />
+                <section aria-labelledby='Webinars live content'>
+                    <div className='w-full h-auto px-[8%] pb-24 flex flex-col gap-10' id='Webinars live content'>
+                        <PopularWebinars dark={dark} webinars={webinars} />
+                        <LiveFilter
+                            onFiltersChange={handleFiltersChange}
+                            initialSort="Most Relevant"
+                            languages={languages}
+                            dark={dark}
+                        />
+                        <AllWebinarsLives
+                            webinars={filteredAndSortedWebinars}
+                            currentFilters={currentFilters}
+                            totalCount={webinars?.length || 0}
+                            filteredCount={filteredAndSortedWebinars.length}
+                            onViewAll={handleViewAllWebinars}
+                            dark={dark}
+                        />
+                    </div>
+                </section>
+                <ToTop dark={dark} />
+            </main>
+        </Fragment>
     );
 };
 

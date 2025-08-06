@@ -26,6 +26,7 @@ const WishlistPage = lazy(() => import('./pages/wishlistPage'));
 const WebinarLivePage = lazy(() => import('./pages/webinarLivePage'));
 const RecordedPage = lazy(() => import('./pages/recordedPage'));
 const ResultPage = lazy(() => import('./pages/resultPage'));
+const ErrorPage = lazy(() => import('./pages/errorPage'));
 
 const App = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,6 +55,7 @@ const App = () => {
     <div className={`w-full h-auto ${dark ? 'bg-zinc-700' : 'bg-zinc-200/50'}`}>
       {/* navbar */}
       <Navbar isScrolled={isScrolled} dark={dark} toggleDark={toggleDarkMode} homePage={true} />
+
       <Suspense fallback={<div className={`w-full h-full ${dark ? 'bg-zinc-900' : 'bg-white'} fixed z-10 left-0 flex items-center justify-center`}><Loading dark={dark} /></div>}>
         {/* content */}
         <Routes>
@@ -80,6 +82,7 @@ const App = () => {
           <Route path='/wishlist' element={<WishlistPage dark={dark} />} />
           <Route path='/recorded' element={<RecordedPage dark={dark} />} />
           <Route path='/result' element={<ResultPage dark={dark} />} />
+          <Route path='*' element={<ErrorPage dark={dark} />} />
         </Routes>
 
         {/* footer */}

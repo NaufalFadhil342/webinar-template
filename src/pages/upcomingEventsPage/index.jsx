@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import Header from "../../components/header";
 import { EVENTS_HEADER as events } from "../../config/configData";
@@ -9,9 +9,19 @@ import SearchFilters from "../../layout/upcomingEvents-layout/searchFilters";
 import ToTop from '../../UI/toTop';
 import NewsLetter from "../../layout/upcomingEvents-layout/newsLetter";
 import { getEventsErrorMessage } from "../../UI/errors";
+import { usePageLoading } from "../../hooks/usePageLoading";
+import LoadingOverlay from "../../components/loadingOverlay";
+import { failLoadData as message } from "../../config/configData";
 
 const UpcomingEventsPage = ({ dark }) => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const { isLoading, stopLoading } = usePageLoading({
+        initialDelay: 0,
+        minDuration: 400,
+        maxDuration: 1400,
+        autoStart: true
+    })
+    const [, setPageData] = useState();
 
     const searchTerm = searchParams.get('search') || '';
     const selectedCategory = searchParams.get('category') || '';
@@ -80,6 +90,21 @@ const UpcomingEventsPage = ({ dark }) => {
         setSearchParams({}, { replace: true });
     };
 
+    useEffect(() => {
+        const fetchPageData = async () => {
+            try {
+                await new Promise(resolve => setTimeout(resolve, 800));
+                setPageData({ loaded: true });
+            } catch (error) {
+                console.error(message.error, error);
+            } finally {
+                stopLoading();
+            }
+        }
+
+        fetchPageData();
+    }, [stopLoading])
+
     const shouldShowError = filteredEvents.length === 0;
 
     const NoResultFound = () => {
@@ -120,36 +145,39 @@ const UpcomingEventsPage = ({ dark }) => {
     }
 
     return (
-        <main className='w-full h-auto'>
-            <Header
-                ariaLabel="Events Header"
-                tagline="events"
-                title={events.title}
-                dark={dark}
-            />
-            <section aria-labelledby="Events Content">
-                <div className="w-full h-auto flex flex-col gap-10" id="Events Content">
-                    <SearchFilters
-                        categories={categories}
-                        dates={dates}
-                        dark={dark}
-                        searchTerm={searchTerm}
-                        selectedCategory={selectedCategory}
-                        selectedDate={selectedDate}
-                        onSearchChange={handleSearchChange}
-                        onCategoryChange={handleCategoryChange}
-                        onDateChange={handleDateChange}
-                    />
-                    {shouldShowError ? (
-                        <NoResultFound />
-                    ) : (
-                        <FeaturedEvents featuredEvents={featuredEvents} dark={dark} />
-                    )}
-                    <NewsLetter dark={dark} />
-                </div>
-            </section>
-            <ToTop dark={dark} />
-        </main>
+        <Fragment>
+            <LoadingOverlay isLoading={isLoading} dark={dark} />
+            <main className='w-full h-auto'>
+                <Header
+                    ariaLabel="Events Header"
+                    tagline="events"
+                    title={events.title}
+                    dark={dark}
+                />
+                <section aria-labelledby="Events Content">
+                    <div className="w-full h-auto flex flex-col gap-10" id="Events Content">
+                        <SearchFilters
+                            categories={categories}
+                            dates={dates}
+                            dark={dark}
+                            searchTerm={searchTerm}
+                            selectedCategory={selectedCategory}
+                            selectedDate={selectedDate}
+                            onSearchChange={handleSearchChange}
+                            onCategoryChange={handleCategoryChange}
+                            onDateChange={handleDateChange}
+                        />
+                        {shouldShowError ? (
+                            <NoResultFound />
+                        ) : (
+                            <FeaturedEvents featuredEvents={featuredEvents} dark={dark} />
+                        )}
+                        <NewsLetter dark={dark} />
+                    </div>
+                </section>
+                <ToTop dark={dark} />
+            </main>
+        </Fragment>
     )
 };
 

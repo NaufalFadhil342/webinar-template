@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router";
 import { BLOG_DETAIL_HEADER as blogDetailHeader } from "../../config/configData";
 import { DUMMY_ARTICLES as articles } from "../../data/blogData";
 import { faker } from "@faker-js/faker";
+import { failLoadData as message } from "../../config/configData";
+import LoadingOverlay from "../../components/loadingOverlay";
+import { usePageLoading } from "../../hooks/usePageLoading";
 
 import Categories from "../../layout/blog-layout/sideContent/categories";
 import NewsLetter from "../../layout/blog-layout/sideContent/news-letter";
@@ -21,6 +24,20 @@ const BlogDetail = ({ dark }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [article, setArticle] = useState(null);
     const [comments, setComments] = useState([]);
+    const [, setPageData] = useState(null);
+
+    const { isLoading: isLoadPage, stopLoading } = usePageLoading();
+
+    const fetchPageData = useCallback(async () => {
+        try {
+            await new Promise(resolve => setTimeout(resolve, 800));
+            setPageData({ loaded: true })
+        } catch (error) {
+            console.error(message.error, error)
+        } finally {
+            stopLoading()
+        }
+    }, [stopLoading])
 
     useEffect(() => {
         const fetchArticleData = async () => {
@@ -43,8 +60,8 @@ const BlogDetail = ({ dark }) => {
         };
 
         fetchArticleData();
-
-    }, [location.state, blogId]);
+        fetchPageData()
+    }, [location.state, blogId, fetchPageData]);
 
     const fetchComments = async () => {
         setIsLoading(true);
@@ -98,27 +115,30 @@ const BlogDetail = ({ dark }) => {
     };
 
     return (
-        <main className="w-full h-auto">
-            <Header
-                dark={dark}
-                title={blogDetailHeader.title}
-                description={blogDetailHeader.description}
-                ariaLabel="Blog Detail Header"
-            />
-            <section className="w-full h-auto grid grid-cols-[2fr,0.8fr] gap-10 px-[5%] pb-24" aria-label="Blog Detail Section">
-                <div className="w-full h-auto flex flex-col gap-10">
-                    <Article article={article} dark={dark} />
-                    <Comments comments={comments} setComments={setComments} dark={dark} />
-                </div>
-                <aside className="w-full h-auto flex flex-col gap-10 mt-10">
-                    <Author author={article.author} dark={dark} />
-                    <Categories dark={dark} />
-                    <PopularPost dark={dark} posts={articles} />
-                    <NewsLetter dark={dark} />
-                    <Tags dark={dark} />
-                </aside>
-            </section>
-        </main>
+        <Fragment>
+            <LoadingOverlay isLoading={isLoadPage} dark={dark} />
+            <main className="w-full h-auto">
+                <Header
+                    dark={dark}
+                    title={blogDetailHeader.title}
+                    description={blogDetailHeader.description}
+                    ariaLabel="Blog Detail Header"
+                />
+                <section className="w-full h-auto grid grid-cols-[2fr,0.8fr] gap-10 px-[5%] pb-24" aria-label="Blog Detail Section">
+                    <div className="w-full h-auto flex flex-col gap-10">
+                        <Article article={article} dark={dark} />
+                        <Comments comments={comments} setComments={setComments} dark={dark} />
+                    </div>
+                    <aside className="w-full h-auto flex flex-col gap-10 mt-10">
+                        <Author author={article.author} dark={dark} />
+                        <Categories dark={dark} />
+                        <PopularPost dark={dark} posts={articles} />
+                        <NewsLetter dark={dark} />
+                        <Tags dark={dark} />
+                    </aside>
+                </section>
+            </main>
+        </Fragment>
     )
 };
 

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import HighLight from './highlight';
 import PropTypes from 'prop-types';
 import { allWebinarsData } from '../../data/allwebinarsData';
@@ -8,6 +8,9 @@ import { getSearchsFilter } from '../../utils/helper/getSearchsFilter';
 import { getSearchErrorMessage } from '../../UI/errors';
 import Icon from '@mdi/react';
 import { mdiFilter } from '@mdi/js';
+import { failLoadData as message } from '../../config/configData';
+import { usePageLoading } from '../../hooks/usePageLoading';
+import LoadingOverlay from '../../components/loadingOverlay';
 
 const defaultResultFilter = {
     sort: 'Most Relevant',
@@ -26,6 +29,13 @@ const defaultResultFilter = {
 
 const ResultPage = ({ dark }) => {
     const [currentResult, setCurrentResult] = useState(defaultResultFilter);
+    const [, setPageData] = useState(null);
+    const { isLoading, stopLoading } = usePageLoading({
+        initialDelay: 50,
+        minDuration: 400,
+        maxDuration: 1400,
+        autoStart: true
+    });
 
     const handleFiltersChange = useCallback((filterType, value) => {
         const newFilters = {
@@ -62,6 +72,21 @@ const ResultPage = ({ dark }) => {
             currentResult.date.from !== '' && currentResult.date.to !== ''
         )
     }
+
+    useEffect(() => {
+        const fetchPageData = async () => {
+            try {
+                await new Promise(resolve => setTimeout(resolve, 800))
+                setPageData({ loaded: true })
+            } catch (error) {
+                console.error(message.error, error)
+            } finally {
+                stopLoading()
+            }
+        }
+
+        fetchPageData()
+    }, [stopLoading])
 
     const NoResultFound = () => {
         const showErrorMessage = filterSearched.length === 0
@@ -106,26 +131,29 @@ const ResultPage = ({ dark }) => {
     }
 
     return (
-        <main className='w-full h-auto flex flex-col gap-10 py-20' aria-label='Result page'>
-            <section className='w-full h-auto' aria-label='Result content'>
-                <div className='w-full h-auto px-[5%] py-6'>
-                    <HighLight
-                        onFiltersChange={handleFiltersChange}
-                        currentResult={currentResult}
-                        dark={dark}
-                        resetFilters={handleResetFilters}
-                        isFilterReset={isFilterReset}
-                    />
-                </div>
-                <div className='w-full h-auto px-[5%] py-6'>
-                    {filterSearched.length === 0 ?
-                        <NoResultFound /> :
-                        <AllCardItems webinarsData={filterSearched} dark={dark} />
-                    }
-                </div>
-            </section>
-            <ToTop dark={dark} />
-        </main>
+        <Fragment>
+            <LoadingOverlay isLoading={isLoading} dark={dark} />
+            <main className='w-full h-auto flex flex-col gap-10 py-20' aria-label='Result page'>
+                <section className='w-full h-auto' aria-label='Result content'>
+                    <div className='w-full h-auto px-[5%] py-6'>
+                        <HighLight
+                            onFiltersChange={handleFiltersChange}
+                            currentResult={currentResult}
+                            dark={dark}
+                            resetFilters={handleResetFilters}
+                            isFilterReset={isFilterReset}
+                        />
+                    </div>
+                    <div className='w-full h-auto px-[5%] py-6'>
+                        {filterSearched.length === 0 ?
+                            <NoResultFound /> :
+                            <AllCardItems webinarsData={filterSearched} dark={dark} />
+                        }
+                    </div>
+                </section>
+                <ToTop dark={dark} />
+            </main>
+        </Fragment>
     )
 };
 

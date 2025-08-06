@@ -4,6 +4,11 @@
  * In real app the configuration properly setted in the backend.
  */
 
+const ERROR_HEADER = {
+  title: 'The Page is Not Found',
+  description: "The page you search doesn't existed or URL address is wrong.",
+};
+
 const SUPPORT_HEADER = {
   title: 'Support Center',
   description: "Your go-to resource for all webinar related inquiries and assistance. We're here to help. If you have any questions or need further assistance, please don't hesitate to contact us.",
@@ -99,6 +104,10 @@ const paymentConfig = {
   devModeEnabled: import.meta.env.VITE_DEV_MODE === 'true',
 };
 
+const failLoadData = {
+  error: 'Failed to load page data:',
+};
+
 export {
   SUPPORT_HEADER,
   TESTIMONIALS_HEADER,
@@ -115,5 +124,7 @@ export {
   WISHLIST_HEADER,
   WEBINARLIVE_HEADER,
   RECORDED_HEADER,
+  ERROR_HEADER,
   paymentConfig,
+  failLoadData,
 };

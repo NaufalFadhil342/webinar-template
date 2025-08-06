@@ -1,19 +1,17 @@
 import { Fragment, useEffect, useState } from 'react';
-import Header from "../../components/header";
-import { COMMUNITY_HEADER } from "../../config/configData";
-import ToTop from "../../UI/toTop";
+import Header from '../../components/header';
+import { ERROR_HEADER as header } from '../../config/configData';
 import PropTypes from 'prop-types';
-import Discuss from "../../layout/discuss-layout";
-import { failLoadData as message } from "../../config/configData";
+import { failLoadData as message } from '../../config/configData';
 import { usePageLoading } from '../../hooks/usePageLoading';
 import LoadingOverlay from '../../components/loadingOverlay';
 
-const CommunityPage = ({ dark }) => {
+const ErrorPage = ({ dark }) => {
     const [, setPageData] = useState(null);
     const { isLoading, stopLoading } = usePageLoading({
         initialDelay: 50,
-        minDuration: 500,
-        maxDuration: 1500,
+        minDuration: 100,
+        maxDuration: 800,
         autoStart: true
     })
 
@@ -35,27 +33,22 @@ const CommunityPage = ({ dark }) => {
     return (
         <Fragment>
             <LoadingOverlay isLoading={isLoading} dark={dark} />
-            <main className="w-full h-auto flex flex-col gap-10">
+            <main className='w-full h-auto mb-8'>
                 <Header
+                    ariaLabel="Error header"
                     dark={dark}
-                    title={COMMUNITY_HEADER.title}
-                    description={COMMUNITY_HEADER.description}
-                    tagline="Discuss"
-                    ariaLabel="Community Header Section"
+                    title={header.title}
+                    description={header.description}
+                    hasButton={true}
+                    tagline='404'
                 />
-                <section aria-labelledby="community-content">
-                    <div id="community-content">
-                        <Discuss dark={dark} />
-                    </div>
-                    <ToTop dark={dark} />
-                </section>
             </main>
         </Fragment>
-    );
-};
+    )
+}
 
-CommunityPage.propTypes = {
+ErrorPage.propTypes = {
     dark: PropTypes.bool
-};
+}
 
-export default CommunityPage;
+export default ErrorPage;
