@@ -198,7 +198,6 @@ const DateFilter = ({
 };
 
 DateFilter.propTypes = {
-    dateRangeRef: PropTypes.object.isRequired,
     handleFiltersMenuToggle: PropTypes.func.isRequired,
     handleDropdownToggle: PropTypes.func,
     showFiltersMenu: PropTypes.node,

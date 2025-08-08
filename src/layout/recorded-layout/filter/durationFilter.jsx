@@ -180,7 +180,6 @@ const DurationFilter = ({
 };
 
 DurationFilter.propTypes = {
-    durationRef: PropTypes.object.isRequired,
     showFiltersMenu: PropTypes.node,
     setShowFiltersMenu: PropTypes.func.isRequired,
     handleFiltersMenuToggle: PropTypes.func.isRequired,

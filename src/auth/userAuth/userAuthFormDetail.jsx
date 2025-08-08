@@ -3,10 +3,12 @@ import { mdiEyeOutline, mdiEyeOffOutline } from '@mdi/js';
 import PropTypes from 'prop-types';
 import PasswordRequirements from './passwordRequirement';
 
-const UserAuthFormDetail = ({ userAuth, handleUserAuth, togglePasswordVisibility, errors, login, passwordVisible, focusedInput, setFocusedInput, dark }) => {
+const UserAuthFormDetail = ({ userAuth, handleUserAuth, togglePasswordVisibility, errors, authMode, passwordVisible, focusedInput, setFocusedInput, dark }) => {
+    const isLoginMode = authMode === 'login';
+
     return (
         <section className='w-full h-auto flex flex-col gap-4'>
-            {!login && (
+            {!isLoginMode && (
                 <div className='w-full h-auto'>
                     <input
                         type="text"
@@ -19,7 +21,7 @@ const UserAuthFormDetail = ({ userAuth, handleUserAuth, togglePasswordVisibility
                     {errors.userName && <p className='text-sm text-red-500'>{errors.userName}</p>}
                 </div>
             )}
-            {login ? (
+            {isLoginMode ? (
                 <div className='w-full'>
                     <input
                         type="text"
@@ -66,7 +68,7 @@ const UserAuthFormDetail = ({ userAuth, handleUserAuth, togglePasswordVisibility
                     <PasswordRequirements password={userAuth.password} dark={dark} />
                 )}
             </div>
-            {!login && (
+            {!isLoginMode && (
                 <div className='w-full relative'>
                     <input
                         type={passwordVisible.confirmPassword ? 'text' : 'password'}
@@ -96,7 +98,7 @@ UserAuthFormDetail.propTypes = {
     userAuth: PropTypes.object.isRequired,
     handleUserAuth: PropTypes.func.isRequired,
     errors: PropTypes.object,
-    login: PropTypes.bool.isRequired,
+    authMode: PropTypes.string.isRequired,
     togglePasswordVisibility: PropTypes.func,
     passwordVisible: PropTypes.object.isRequired,
     setFocusedInput: PropTypes.func,

@@ -3,9 +3,11 @@ import Icon from '@mdi/react';
 import { mdiCalendarMonth, mdiClockOutline, mdiCurrencyUsd, mdiMapMarker } from '@mdi/js';
 import { useNavigate } from 'react-router';
 import { useSessions } from '../../hooks/useSessions';
+import { useAuth } from '../../hooks/useAuth';
 
 const FeaturedEvent = ({ event, dark }) => {
     const { addSession, selectedSessions } = useSessions();
+    const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     const buySession = (event) => {
@@ -14,11 +16,16 @@ const FeaturedEvent = ({ event, dark }) => {
             return;
         }
 
-        addSession(event);
-        sessionStorage.setItem('buyingSessionId', event.id);
+        if (isAuthenticated) {
+            addSession(event);
+            sessionStorage.setItem('buyingSessionId', event.id);
 
-        navigate('/payment', { state: { buyingSession: event } });
-        window.scrollTo(0, 0);
+            navigate('/payment', { state: { buyingSession: event } });
+            window.scrollTo(0, 0);
+        } else {
+            alert("Couldn't buy the session, due to the user doesn't sign in!")
+        }
+
     };
 
     const handleAddToWishlist = (event) => {
@@ -27,8 +34,12 @@ const FeaturedEvent = ({ event, dark }) => {
             return;
         }
 
-        addSession(event);
-        alert(`"${event.title}" added to your wishlist!`);
+        if (isAuthenticated) {
+            addSession(event);
+            alert(`"${event.title}" added to your wishlist!`);
+        } else {
+            alert("You must sign in to unlock your wishlist items!")
+        }
     };
 
     const isSelectedEvent = eventId => {

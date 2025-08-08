@@ -16,16 +16,9 @@ const User = ({ navbarState, dark, toggleDark, closeAllDropdowns }) => {
     const getDisplayName = () => {
         if (!user) return 'User';
 
-        // Priority: username > email username part > usernameOrEmail > fallback
-        return user.username ||
-            (user.email ? user.email.split('@')[0] : '') ||
-            (user.usernameOrEmail ?
-                (user.usernameOrEmail.includes('@') ?
-                    user.usernameOrEmail.split('@')[0] :
-                    user.usernameOrEmail
-                ) : ''
-            ) ||
-            'User';
+        return (
+            (user.usernameOrEmail ? (user.usernameOrEmail.includes('@') ? user.usernameOrEmail.split('@')[0] : user.usernameOrEmail) : '') || 'User'
+        )
     };
 
     return (
@@ -43,7 +36,7 @@ const User = ({ navbarState, dark, toggleDark, closeAllDropdowns }) => {
                             Hello, {getDisplayName()}
                         </p>
                     ) : (
-                        <Link to='/register' className={dark ? 'text-zinc-300 hover:text-secondary' : 'text-zinc-600 hover:text-primary'}>
+                        <Link to='/register' onClick={() => window.scrollTo(0, 0)} className={dark ? 'text-zinc-300 hover:text-secondary' : 'text-zinc-600 hover:text-primary'}>
                             Log In
                         </Link>
                     )}

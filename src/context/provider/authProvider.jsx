@@ -4,8 +4,8 @@
  * Or using library such as: Redux or Zustand 
  */
 
+import { useState, useEffect, useMemo } from "react";
 import { AuthContext } from "../authContext";
-import { useState, useEffect } from "react";
 import { validateUsernameOrEmail } from "../../utils/helper/getUsernameOrEmail";
 import { formValidation } from "../../utils/formValidation";
 import PropTypes from 'prop-types';
@@ -57,29 +57,71 @@ const AuthProvider = ({ children }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState({});
 
+    // Storage helper functions
+    const userStorageHelpers = useMemo(() => ({
+        // For storing all registered users
+        getRegisteredUsers: () => {
+            const users = localStorage.getItem('registeredUsers');
+            return users ? JSON.parse(users) : [];
+        },
+
+        saveRegisteredUser: (newUser) => {
+            const existingUser = userStorageHelpers.getRegisteredUsers();
+            const updatedUser = [...existingUser, newUser];
+            localStorage.setItem('registeredUsers', JSON.stringify(updatedUser))
+        },
+
+        updateRegisteredUsers: (users) => {
+            localStorage.setItem('registeredUser', JSON.stringify(users))
+        },
+
+        // For storing the current authenticated user
+        getCurrentUser: () => {
+            const user = localStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        },
+
+        setCurrentUser: (user) => {
+            localStorage.setItem('currentUser', JSON.stringify(user))
+        },
+
+        // For auth token
+        getAuthToken: () => {
+            return localStorage.getItem('authToken')
+        },
+
+        setAuthToken: (token) => {
+            localStorage.setItem('authToken', token)
+        },
+
+        // Clear authentication data
+        cleatAuthData: () => {
+            localStorage.removeItem('currentUser'),
+                localStorage.removeItem('authToken')
+        }
+    }), [])
+
     // Check for existing authentication on app load
     useEffect(() => {
         const checkAuthStatus = () => {
             try {
-                const storedUser = localStorage.getItem('authenticatedUsers');
-                const storedToken = localStorage.getItem('authToken');
+                const storedUser = userStorageHelpers.getCurrentUser();
+                const storedToken = userStorageHelpers.getAuthToken();
 
                 if (storedUser && storedToken) {
-                    const userdata = JSON.parse(storedUser);
-                    setUser(userdata);
+                    setUser(storedUser);
                     setIsAuthenticated(true);
                 };
             } catch (error) {
                 console.log('Error checking auth status:', error);
-                localStorage.removeItem('authenticatedUsers');
-                localStorage.removeItem('authToken');
+                userStorageHelpers.cleatAuthData();
             } finally {
                 setIsLoading(false);
             };
         };
 
         checkAuthStatus();
-    }, []);
+    }, [userStorageHelpers]);
 
     const togglePasswordVisibility = (field) => {
         setPasswordVisible((prevState) => ({
@@ -88,29 +130,24 @@ const AuthProvider = ({ children }) => {
         }));
     };
 
-    // Helper function to get existing users from localStorage
-    const getStoredUsers = () => {
-        const users = localStorage.getItem('authenticatedUsers');
-        return users ? JSON.parse(users) : [];
-    };
-
-    // Helper function to save users to localStorage
-    const saveUsers = (users) => {
-        localStorage.setItem('authenticatedUsers', JSON.stringify(users));
-    };
-
     // How the website works in the login auth
     const loginAuth = async (formData) => {
         try {
             setIsSubmitting(true);
             setErrors({});
 
-            const existingUsers = getStoredUsers();
+            // Get all registered users from the current storage
+            const existingUsers = userStorageHelpers.getRegisteredUsers();
+
+            const usernameOrEmail = formData.usernameOrEmail || formData.username || formData.email
 
             const user = existingUsers.find(u =>
-                u.username === formData.usernameOrEmail ||
-                u.email === formData.usernameOrEmail
+                u.username === usernameOrEmail ||
+                u.email === usernameOrEmail
             );
+
+            console.log('Found user:', user);
+            console.log('Comparing password:', user?.password, 'vs', formData.password)
 
             if (!user) {
                 setErrors({
@@ -133,8 +170,8 @@ const AuthProvider = ({ children }) => {
             };
 
             // Store authentication data
-            localStorage.setItem('authenticatedUsers', JSON.stringify(userForAuth));
-            localStorage.setItem('authToken', `mock-jwt-token-${user.id}`);
+            userStorageHelpers.setCurrentUser(userForAuth)
+            userStorageHelpers.setAuthToken(`mock-jwt-token-${user.id}`)
 
             setUser(userForAuth);
             setIsAuthenticated(true);
@@ -144,7 +181,7 @@ const AuthProvider = ({ children }) => {
             return { success: true, user: userForAuth };
         } catch (error) {
             console.error('Login error:', error.message);
-            setErrors({ general: 'Something wrong when you login, please try again.' });
+            setErrors({ general: 'Something goes wrong, please try again!' });
             return { success: false, error: error.message };
         } finally {
             setIsSubmitting(false);
@@ -166,7 +203,7 @@ const AuthProvider = ({ children }) => {
             }
 
             // Get existing users
-            const existingUsers = getStoredUsers();
+            const existingUsers = userStorageHelpers.getRegisteredUsers();
 
             // Check if user already exists
             const userExists = existingUsers.some(user =>
@@ -195,15 +232,14 @@ const AuthProvider = ({ children }) => {
             // Create new user
             const newUser = {
                 id: Date.now(),
-                username: formData.username,
+                username: formData.userName,
                 email: formData.email,
-                password: formData.password, // In real app, this would be hashed
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                password: formData.password
             };
 
-            // Add to users array and save
-            existingUsers.push(newUser);
-            saveUsers(existingUsers);
+            // Save to registered user array
+            userStorageHelpers.saveRegisteredUser(newUser)
 
             // Create user object without password for auth state
             const userForAuth = {
@@ -212,9 +248,9 @@ const AuthProvider = ({ children }) => {
                 email: newUser.email,
             };
 
-            // Store authentication data
-            localStorage.setItem('authenticatedUsers', JSON.stringify(userForAuth));
-            localStorage.setItem('authToken', `mock-jwt-token-${newUser.id}`);
+            // Store current authenticated user
+            userStorageHelpers.setCurrentUser(userForAuth);
+            userStorageHelpers.setAuthToken(`mock-jwt-token-${newUser.id}`);
 
             setUser(userForAuth);
             setIsAuthenticated(true);
@@ -274,35 +310,73 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    const handleUserSubmit = async (e, isLogin) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
 
         if (isSubmitting) return { success: false, error: 'Already submitting' };
 
+        console.log('handle login called with:', userAuth)
+
         try {
-            const validationRules = isLogin ? loginValidationRules : signUpValidationRules;
-            const validateErrors = formValidation(userAuth, validationRules);
+            setIsSubmitting(true);
+
+            const validateErrors = formValidation(userAuth, loginValidationRules);
 
             if (Object.keys(validateErrors).length > 0) {
                 setErrors(validateErrors);
                 return { success: false, errors: validateErrors };
             }
 
-            const result = isLogin
-                ? await loginAuth(userAuth)
-                : await signUpAuth(userAuth);
+            const result = await loginAuth(userAuth);
+            console.log('loginAuth result:', result);
+
+            if (result.success) {
+                setErrors({});
+            }
 
             return result;
         } catch (error) {
-            console.error('Submit error:', error);
-            setErrors({ form: 'An unexpected error occurred' });
+            console.error('Login error:', error);
+            setErrors({ form: 'Login failed. Please try again.' });
             return { success: false, error: error.message };
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+
+        if (isSubmitting) return { success: false, error: 'Already submitting' };
+
+        try {
+            setIsSubmitting(true);
+
+            const validateErrors = formValidation(userAuth, signUpValidationRules);
+
+            if (Object.keys(validateErrors).length > 0) {
+                setErrors(validateErrors);
+                return { success: false, errors: validateErrors };
+            }
+
+            const result = await signUpAuth(userAuth);
+
+            if (result.success) {
+                setErrors({});
+            }
+
+            return result;
+        } catch (error) {
+            console.error('Sign up error:', error);
+            setErrors({ form: 'Sign up failed. Please try again.' });
+            return { success: false, error: error.message };
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     const logout = () => {
-        localStorage.removeItem('authenticatedUser');
-        localStorage.removeItem('authToken');
+        userStorageHelpers.cleatAuthData();
         setUser(null);
         setIsAuthenticated(false);
         setUserAuth(initialUserAuth);
@@ -329,7 +403,8 @@ const AuthProvider = ({ children }) => {
 
         handleUserAuth,
         togglePasswordVisibility,
-        handleUserSubmit,
+        handleLogin,
+        handleSignUp,
         setFocusedInput,
         resetForm,
 

@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
-import BillingInformation from './billingInformation';
-import OrderDetails from './orderDetails';
-import OrderSummary from './orderSummary';
-import PaymentMethod from './paymentMethods';
+import { Link } from 'react-router'
 import PropTypes from 'prop-types';
 import { useSessions } from '../../hooks/useSessions';
 import { formValidation } from '../../utils/formValidation';
-import Form from '../../UI/form';
 
 // Helper function to generate your cardholder
 import { validateCardNumber, validateExpiryDate } from '../../utils/helper/getCardNumber'
+import { useAuth } from '../../hooks/useAuth';
+import PaymentForm from './paymentForm';
 
 const defaultPaymentState = {
   fullName: '',
@@ -171,6 +169,7 @@ const Payment = ({ dark }) => {
   const [promoDiscount, setPromoDiscount] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState(null);
+  const { isAuthenticated } = useAuth();
 
   // Calculate subtotal (before discounts)
   const calculatePrices = useCallback(() => {
@@ -370,23 +369,26 @@ const Payment = ({ dark }) => {
 
   return (
     <div className='w-full h-auto px-[8%]' aria-label='payment detail'>
-      <Form className='w-full h-auto flex gap-10' submitForm={handlePaymentSubmit} autoComplete="off">
-        <div className='flex-[60%] w-full h-auto flex flex-col gap-10'>
-          <BillingInformation dark={dark} billingInformation={paymentState} handleBillingInformation={handlePaymentChange} errors={errors} />
-          <PaymentMethod calculateTotals={calculateTotals} paymentMethod={paymentState} handlePaymentMethod={handlePaymentChange} errors={errors} handleTransferTypeChange={handleTransferTypeChange} isSubmitting={isSubmitting} />
+      {isAuthenticated ?
+        <PaymentForm
+          applyPromoCode={applyPromoCode}
+          calculateTotals={calculateTotals}
+          calculatePrices={calculatePrices}
+          dark={dark}
+          errors={errors}
+          handlePaymentChange={handlePaymentChange}
+          handleTransferTypeChange={handleTransferTypeChange}
+          isSubmitting={isSubmitting}
+          paymentState={paymentState}
+          promoDiscount={promoDiscount}
+          selectedSessions={selectedSessions}
+          submitForm={handlePaymentSubmit}
+        /> :
+        <div className="w-full h-auto flex flex-col items-center pb-24">
+          <h1 className="text-center font-semibold text-zinc-900 text-[2em]">Login or Sign Up to Get Access to the payment gateway</h1>
+          <Link to='/register' className="w-fit h-12 px-4 mt-6 flex items-center bg-primary text-white hover:bg-darkPrimary rounded-md transition-all duration-150 ease-in-out">Register</Link>
         </div>
-        <div className='flex-[40%] w-full h-auto flex flex-col gap-10'>
-          <OrderDetails selectedSessions={selectedSessions} calculatePrices={calculatePrices} />
-          <OrderSummary
-            selectedSessions={selectedSessions}
-            calculatePrices={calculatePrices}
-            calculateTotals={calculateTotals}
-            promoDiscount={promoDiscount}
-            applyPromoCode={applyPromoCode}
-            isSubmitting={isSubmitting}
-          />
-        </div>
-      </Form>
+      }
     </div>
   )
 };

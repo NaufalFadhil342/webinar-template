@@ -3,10 +3,14 @@ import Icon from '@mdi/react';
 import { mdiBookmarkPlusOutline, mdiBookmarkPlus, mdiClock, mdiStar, mdiCalendar, mdiDownload, mdiShare, mdiPlay } from '@mdi/js';
 import PropTypes from 'prop-types';
 import { motion } from 'motion/react';
+import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router';
 
 const AllRecordedSessions = ({ recordedData, dark }) => {
     const [bookItems, setBookItems] = useState({});
     const [showPlayBtn, setShowPlayBtn] = useState(null);
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('en-US', {
@@ -29,6 +33,11 @@ const AllRecordedSessions = ({ recordedData, dark }) => {
 
     const handleShowPlayBtn = (recordedId) => setShowPlayBtn(recordedId);
     const handleHidePlayBtn = () => setShowPlayBtn(null);
+
+    const isRegistered = () => {
+        navigate(isAuthenticated ? null : '/register')
+        window.scrollTo(0, 0)
+    }
 
     return (
         <section className='w-full h-auto pt-10 pb-24 px-[8%]'>
@@ -107,8 +116,9 @@ const AllRecordedSessions = ({ recordedData, dark }) => {
                                     <button
                                         className={`w-full h-10 flex items-center justify-center rounded ${dark ? 'bg-secondary hover:bg-darkSecondary' : ' bg-primary hover:bg-darkPrimary'} text-white transition-colors duration-150 ease-in-out`}
                                         type='button'
+                                        onClick={isRegistered}
                                     >
-                                        Watch Now
+                                        {isAuthenticated ? 'Watch Now' : 'Registered Now'}
                                     </button>
                                     <button
                                         type='button'

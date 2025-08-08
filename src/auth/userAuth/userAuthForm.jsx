@@ -5,7 +5,7 @@ import Form from '../../UI/form';
 import UserAuthFormDetail from './userAuthFormDetail';
 import { useAuth } from '../../hooks/useAuth';
 
-const UserAuthForm = ({ dark, login }) => {
+const UserAuthForm = ({ dark, authMode }) => {
     const {
         userAuth,
         passwordVisible,
@@ -14,12 +14,14 @@ const UserAuthForm = ({ dark, login }) => {
         isSubmitting,
         handleUserAuth,
         togglePasswordVisibility,
-        handleUserSubmit,
+        handleLogin,
+        handleSignUp,
         setFocusedInput,
     } = useAuth();
 
     const focusedRef = useRef();
     const navigate = useNavigate();
+    const isLoginMode = authMode === 'login'
 
     const handleOutsideClick = useCallback((event) => {
         if (focusedRef.current && !focusedRef.current.contains(event.target)) {
@@ -28,10 +30,18 @@ const UserAuthForm = ({ dark, login }) => {
     }, [setFocusedInput]);
 
     const onSubmit = async (e) => {
-        const result = await handleUserSubmit(e, login);
+        e.preventDefault();
+        console.log('Form submitted!')
+
+        const result = isLoginMode
+            ? await handleLogin(e)
+            : await handleSignUp(e)
+
+        console.log('Result:', result)
 
         if (result.success) {
-            console.log(`Successfully ${login ? 'logged in' : 'signed up'}:`, result.user);
+            const actionText = isLoginMode ? 'logged in' : 'signed up';
+            console.log(`Successfully ${actionText}:`, result.user);
 
             // Navigate to home page or intended destination
             navigate('/');
@@ -49,7 +59,12 @@ const UserAuthForm = ({ dark, login }) => {
     }, [handleOutsideClick]);
 
     return (
-        <Form method='POST' className='w-full h-auto flex flex-col gap-8' submitForm={onSubmit} focusedRef={focusedRef}>
+        <Form
+            method='POST'
+            className='w-full h-auto flex flex-col gap-8'
+            submitForm={onSubmit}
+            focusedRef={focusedRef}
+        >
             {errors.general && (
                 <div className='w-fit mx-auto text-center'>
                     <p className='text-red-500'>{errors.general}</p>
@@ -60,7 +75,7 @@ const UserAuthForm = ({ dark, login }) => {
                 togglePasswordVisibility={togglePasswordVisibility}
                 handleUserAuth={handleUserAuth}
                 errors={errors}
-                login={login}
+                authMode={authMode}
                 passwordVisible={passwordVisible}
                 focusedInput={focusedInput}
                 setFocusedInput={setFocusedInput}
@@ -73,7 +88,10 @@ const UserAuthForm = ({ dark, login }) => {
                     className={`w-full h-full py-3 flex items-center justify-center px-4 text-white rounded-md ${dark ? "bg-secondary hover:bg-darkSecondary" : "bg-primary hover:bg-darkPrimary"
                         } ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                 >
-                    {isSubmitting ? 'Processing...' : (login ? 'Log in' : 'Sign up')}
+                    {isSubmitting
+                        ? (isLoginMode ? 'Logging in...' : 'Signing up...')
+                        : (isLoginMode ? 'Log in' : 'Sign up')
+                    }
                 </button>
             </div>
 
@@ -84,7 +102,7 @@ const UserAuthForm = ({ dark, login }) => {
 
 UserAuthForm.propTypes = {
     dark: PropTypes.bool,
-    login: PropTypes.bool
+    authMode: PropTypes.string.isRequired
 };
 
 export default UserAuthForm;
