@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router';
 import { useSessions } from '../../../hooks/useSessions';
 import Icon from '@mdi/react';
 import { mdiClockOutline, mdiCurrencyUsd } from '@mdi/js';
+import { useAuth } from '../../../hooks/useAuth';
 
 const SessionList = ({ sessions, dark }) => {
     const { addSession, selectedSessions } = useSessions();
+    const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     if (!sessions || sessions.length === 0) {
@@ -20,13 +22,17 @@ const SessionList = ({ sessions, dark }) => {
             return;
         }
 
-        // Add session to context and set a flag in sessionStorage that we're coming from buy action
-        addSession(session);
-        sessionStorage.setItem('buyingSessionId', session.id);
+        if (isAuthenticated) {
+            // Add session to context and set a flag in sessionStorage that we're coming from buy action
+            addSession(session);
+            sessionStorage.setItem('buyingSessionId', session.id);
 
-        // Navigate to payment page
-        navigate('/payment', { state: { buyingSession: session } });
-        window.scrollTo(0, 0);
+            // Navigate to payment page
+            navigate('/payment', { state: { buyingSession: session } });
+            window.scrollTo(0, 0);
+        } else {
+            alert("You must sign in to buy the lecture!")
+        }
     };
 
     const handleAddToWishlist = (session) => {
@@ -36,11 +42,15 @@ const SessionList = ({ sessions, dark }) => {
             return;
         }
 
-        // Add session to context (which will also save to localStorage via our provider)
-        addSession(session);
+        if (isAuthenticated) {
+            // Add session to context (which will also save to localStorage via our provider)
+            addSession(session);
 
-        // Optional: Show some feedback to the user (you could use a toast notification here)
-        alert(`"${session.title}" added to your schedule!`);
+            // Optional: Show some feedback to the user (you could use a toast notification here)
+            alert(`"${session.title}" added to your schedule!`);
+        } else {
+            alert('Sign in to get access to your wishlist items')
+        }
     };
 
     // Check if a session is already in the selected sessions
