@@ -26,7 +26,7 @@ const Sorting = ({
             </button>
             {showMenuDown === 'sorting' && (
                 <ul
-                    className="w-40 h-auto bg-white rounded-md top-14 right-0 absolute z-[5] overflow-x-hidden"
+                    className={`w-40 h-auto ${dark ? 'bg-zinc-800' : 'bg-white'} rounded-md top-14 right-0 absolute z-[5] overflow-x-hidden`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     {sorts.map((sort, index) => {
@@ -35,7 +35,7 @@ const Sorting = ({
                         return (
                             <li
                                 key={index}
-                                className={`w-full h-auto p-3 text-zinc-600 transition-all duration-150 ease-in hover:cursor-pointer ${isSelected ? 'bg-primary/15 font-semibold' : 'hover:bg-primary/10 hover:font-medium'}`}
+                                className={`w-full h-auto p-3 transition-all duration-150 ease-in hover:cursor-pointer ${isSelected ? `${dark ? 'bg-white/15 font-semibold text-secondary' : 'bg-primary/15 font-semibold text-primary'}` : `${dark ? 'hover:bg-white/10 hover:font-medium text-zinc-300 hover:text-secondary' : 'hover:bg-primary/10 hover:font-medium text-zinc-600 hover:text-primary'}`}`}
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleSortChange(sort.value);

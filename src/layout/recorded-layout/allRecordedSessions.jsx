@@ -49,13 +49,13 @@ const AllRecordedSessions = ({ recordedData, dark }) => {
                         <li key={recorded.id} className='w-full h-auto shadow-lg flex flex-col rounded-lg overflow-hidden'>
                             <div className='w-full h-60 p-4 relative bg-gradient-to-br from-primary to-secondary' onMouseEnter={() => handleShowPlayBtn(recorded.id)} onMouseLeave={handleHidePlayBtn}>
                                 <button
-                                    className={`group size-9 absolute z-[3] top-4 right-4 flex items-center justify-center ${itemIsBooked ? 'bg-zinc-100' : 'bg-zinc-100/65'} backdrop-blur rounded-full outline-none hover:bg-zinc-100 transition-all duration-150 ease-in`}
+                                    className={`group size-9 absolute z-[3] top-4 right-4 flex items-center justify-center ${itemIsBooked ? `${dark ? 'bg-zinc-700 text-white' : 'bg-primary text-white'}` : `${dark ? 'bg-zinc-600/55 text-white hover:bg-zinc-700' : 'bg-zinc-100/55 hover:bg-primary text-zinc-600 hover:text-white'}`} backdrop-blur rounded-full outline-none transition-all duration-150 ease-in`}
                                     onClick={() => handleBookmark(recorded.id)}
                                 >
                                     <Icon
                                         path={itemIsBooked ? mdiBookmarkPlus : mdiBookmarkPlusOutline}
                                         size={0.75}
-                                        className={itemIsBooked ? 'text-primary' : 'text-zinc-600'} />
+                                    />
                                 </button>
                                 <div className='absolute bottom-4 left-4 z-[3] bg-zinc-500 rounded text-white py-1 px-2 flex items-center gap-1 text-sm'>
                                     <Icon path={mdiClock} size={0.6} className='text-white' />

@@ -53,7 +53,7 @@ const SearchFilters = ({
                     <Icon path={mdiMagnify} size={1.3} className='text-gray-400' />
                 </div>
                 <div className='w-full h-auto flex items-center justify-between'>
-                    <span className='text-lg text-zinc-600 hidden sm:flex items-center gap-1'>
+                    <span className={`text-lg ${dark ? 'text-zinc-300' : 'text-zinc-600'} hidden sm:flex items-center gap-1`}>
                         <Icon path={mdiFilterVariant} size={0.8} className='-translate-y-[2px]' />
                         <>Filter</>
                     </span>

@@ -48,7 +48,7 @@ const PopularWebinars = ({ dark, webinars }) => {
 
     return (
         <div className='w-full h-auto flex flex-col gap-6'>
-            <h1 className={`text-4xl font-semibold ${dark ? 'text-white' : 'text-zinc-900'} uppercase`}>Populars Webinar</h1>
+            <h1 className={`text-4xl font-semibold ${dark ? 'text-white' : 'text-zinc-900'} uppercase`}>Populars Events</h1>
             <div
                 className='w-full h-auto overflow-x-hidden'
                 ref={emblaLivesRef}

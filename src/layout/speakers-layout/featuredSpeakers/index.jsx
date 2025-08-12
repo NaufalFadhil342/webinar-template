@@ -73,7 +73,7 @@ const FeaturedSpeakers = ({ dark }) => {
         <section className='w-full h-auto px-[8%] flex flex-col gap-10'>
             <div className='w-full h-auto flex items-end gap-10 justify-between'>
                 <h1 className={`w-full md:w-3/5 ${dark ? 'text-white' : 'text-zinc-900'} text-4xl text-left leading-tight font-semibold uppercase`}>
-                    Explore their <span className={dark ? 'text-secondary' : 'text-primary'}>stories</span>, discover their <span className={dark ? 'text-secondary' : 'text-primary'}>expertise</span>, and find out what they&#39;ll be speaking about at <span className={dark ? 'text-secondary' : 'bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'}>MeetNar</span>.
+                    Explore their <span className={dark ? 'text-secondary' : 'text-primary'}>stories</span>, discover their <span className={dark ? 'text-secondary' : 'text-primary'}>expertise</span>, and find out what they&#39;ll be speaking about at <span className={dark ? 'text-secondary' : 'bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent'}>MitNar</span>.
                 </h1>
                 <div className='w-auto h-auto md:flex items-center gap-4 hidden'>
                     <ButtonArrow

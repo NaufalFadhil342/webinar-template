@@ -68,14 +68,14 @@ const FilterDropdown = ({
     return (
         <div className="w-auto h-auto relative" ref={filterDropdownRef}>
             <button
-                className={`flex items-center justify-between w-full h-auto gap-2 px-4 py-2 rounded-md ${dark ? 'bg-zinc-800 hover:bg-zinc-700' : 'bg-white hover:bg-gray-100'} border ${dark ? 'border-zinc-700' : 'border-gray-200'}`}
+                className={`group flex items-center justify-between w-full h-auto gap-2 px-4 py-2 rounded-md border ${dark ? 'bg-zinc-800 hover:bg-secondary border-zinc-700' : 'bg-white hover:bg-primary border-gray-200'} transition-all duration-150 ease-in`}
                 onClick={onToggle}
                 aria-expanded={isOpen}
                 aria-haspopup="listbox"
                 aria-label={`Filter by ${label}`}
             >
-                <span className={dark ? 'text-zinc-300' : 'text-zinc-700'}>{getDisplayText()}</span>
-                <Icon path={mdiChevronDown} size={0.85} className={dark ? 'text-zinc-400' : 'text-zinc-500'} />
+                <span className={`${dark ? 'text-zinc-300 group-hover:text-white group-hover:font-semibold' : 'text-zinc-700 group-hover:text-white group-hover:font-semibold'} transition-all duration-150 ease-in`}>{getDisplayText()}</span>
+                <Icon path={mdiChevronDown} size={0.85} className={`${dark ? 'text-zinc-400 group-hover:text-white' : 'text-zinc-500 group-hover:text-white'} transition-all duration-150 ease-in`} />
             </button>
             {isOpen && (
                 <div
