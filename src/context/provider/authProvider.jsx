@@ -130,6 +130,16 @@ const AuthProvider = ({ children }) => {
         }));
     };
 
+    const checkPasswordMatch = (password, confirmPassword) => {
+        if (!password || !confirmPassword) return { isValid: true, message: '' }
+
+        if (password === confirmPassword) {
+            return { isValid: true, message: '' }
+        } else {
+            return { isValid: false, message: 'Password and confirm password do not match.' }
+        }
+    }
+
     // How the website works in the login auth
     const loginAuth = async (formData) => {
         try {
@@ -145,6 +155,14 @@ const AuthProvider = ({ children }) => {
                 u.username === usernameOrEmail ||
                 u.email === usernameOrEmail
             );
+
+            const passwordValidation = checkPasswordMatch(formData.password, formData.confirmPassword);
+            if (!passwordValidation.isValid) {
+                setErrors({
+                    confirmPassword: passwordValidation.message
+                });
+                return { success: false, error: 'Passwords do not match' }
+            }
 
             console.log('Found user:', user);
             console.log('Comparing password:', user?.password, 'vs', formData.password)
@@ -399,6 +417,7 @@ const AuthProvider = ({ children }) => {
         passwordVisible,
         focusedInput,
         errors,
+        setErrors,
         isSubmitting,
 
         handleUserAuth,

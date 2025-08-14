@@ -11,6 +11,7 @@ const UserAuthForm = ({ dark, authMode }) => {
         passwordVisible,
         focusedInput,
         errors,
+        setErrors,
         isSubmitting,
         handleUserAuth,
         togglePasswordVisibility,
@@ -75,6 +76,7 @@ const UserAuthForm = ({ dark, authMode }) => {
                 togglePasswordVisibility={togglePasswordVisibility}
                 handleUserAuth={handleUserAuth}
                 errors={errors}
+                setErrors={setErrors}
                 authMode={authMode}
                 passwordVisible={passwordVisible}
                 focusedInput={focusedInput}
