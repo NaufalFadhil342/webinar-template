@@ -31,8 +31,32 @@ const DarkNavbar = ({ isScrolled, navbarRef, toggleDropdown, navbarState, closeA
                     <h1 className='text-3xl font-bold text-white'>MitNar.</h1>
                 </div>
                 <ul className="w-auto h-full hidden lg:flex items-center justify-center gap-6">
-                    <li>
-                        <NavLink to='/' id="navlink" onClick={() => handleDefault('/')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center text-white font-medium ' : '  text-zinc-300 hover:text-white font-semibold duration-150 transition-all'} aria-label="Home">Home</NavLink>
+                    <li className="relative">
+                        <button onClick={() => toggleDropdown('home')} className='bg-transparent w-fit h-fit flex justify-start items-center duration-150 transition-all text-zinc-300 hover:text-white font-semibold focus:text-white' aria-haspopup="true" aria-expanded={navbarState === 'home'}>
+                            <>Home</>
+                            <Icon path={mdiMenuDown} size={0.85} />
+                        </button>
+                        <AnimatePresence>
+                            {navbarState === 'home' && <motion.ul
+                                className="absolute z-[3] top-16 w-32 h-0 py-4 px-4 rounded bg-zinc-800 shadow-md shadow-zinc-500/25 overflow-y-hidden"
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <li>
+                                    <NavLink to='/' onClick={() => handleDefault('/')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-semibold  ' : '  w-full h-8 text-zinc-300 font-semibold hover:text-white duration-150 transition-all flex items-center gap-1'} aria-label="Home 1">
+                                        Home 1
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/home2' onClick={() => handleDefault('/home2')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-semibold  ' : '  w-full h-8 flex items-center text-zinc-300 font-semibold hover:text-white duration-150 transition-all'} aria-label="Home 2">Home 2</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/home3' onClick={() => handleDefault('/home3')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-semibold  ' : '  w-full h-8 flex items-center text-zinc-300 font-semibold hover:text-white duration-150 transition-all'} aria-label="Home 3">Home 3</NavLink>
+                                </li>
+                            </motion.ul>}
+                        </AnimatePresence>
                     </li>
                     <li className="relative">
                         <button onClick={() => toggleDropdown('sessions')} className='bg-transparent w-fit h-fit flex justify-start items-center duration-150 transition-all text-zinc-300 hover:text-white font-semibold focus:text-white' aria-haspopup="true" aria-expanded={navbarState === 'sessions'}>
@@ -48,19 +72,19 @@ const DarkNavbar = ({ isScrolled, navbarRef, toggleDropdown, navbarState, closeA
                                 transition={{ duration: 0.3 }}
                             >
                                 <li>
-                                    <NavLink to='/live' onClick={() => handleDefault('/live')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-medium  ' : '  w-full h-8 text-zinc-300 font-medium hover:text-white duration-150 transition-all flex items-center gap-1'} aria-label="Webinars Now">
+                                    <NavLink to='/live' onClick={() => handleDefault('/live')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-semibold  ' : '  w-full h-8 text-zinc-300 font-semibold hover:text-white duration-150 transition-all flex items-center gap-1'} aria-label="Webinars Now">
                                         <>Webinars Now</>
                                         <Icon path={mdiEqualizer} size={0.85} />
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/events' onClick={() => handleDefault('/events')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-medium  ' : '  w-full h-8 flex items-center text-zinc-300 font-medium hover:text-white duration-150 transition-all'} aria-label="Events">Upcoming Events</NavLink>
+                                    <NavLink to='/events' onClick={() => handleDefault('/events')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-semibold  ' : '  w-full h-8 flex items-center text-zinc-300 font-semibold hover:text-white duration-150 transition-all'} aria-label="Events">Upcoming Events</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/recorded' onClick={() => handleDefault('/recorded')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-medium  ' : '  w-full h-8 flex items-center text-zinc-300 font-medium hover:text-white duration-150 transition-all'} aria-label="Recorded">Recorded</NavLink>
+                                    <NavLink to='/recorded' onClick={() => handleDefault('/recorded')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-semibold  ' : '  w-full h-8 flex items-center text-zinc-300 font-semibold hover:text-white duration-150 transition-all'} aria-label="Recorded">Recorded</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/speakers' onClick={() => handleDefault('/speakers')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-medium  ' : '  w-full h-8 flex items-center text-zinc-300 font-medium hover:text-white duration-150 transition-all'} aria-label="Speakers">
+                                    <NavLink to='/speakers' onClick={() => handleDefault('/speakers')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center gap-1 text-white font-semibold' : '  w-full h-8 flex items-center text-zinc-300 font-semibold hover:text-white duration-150 transition-all'} aria-label="Speakers">
                                         Speakers
                                     </NavLink>
                                 </li>
@@ -69,7 +93,7 @@ const DarkNavbar = ({ isScrolled, navbarRef, toggleDropdown, navbarState, closeA
                         </AnimatePresence>
                     </li>
                     <li>
-                        <NavLink to='/aboutus' id="navlink" onClick={() => handleDefault('/aboutus')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center text-white font-medium ' : 'duration-150 transition-all   text-zinc-300 hover:text-white font-semibold'} aria-label="About Us">About Us</NavLink>
+                        <NavLink to='/aboutus' id="navlink" onClick={() => handleDefault('/aboutus')} className={({ isActive }) => isActive ? 'w-full h-8 flex items-center text-white font-semibold ' : 'duration-150 transition-all   text-zinc-300 hover:text-white font-semibold'} aria-label="About Us">About Us</NavLink>
                     </li>
                     <li className="relative">
                         <button className='bg-transparent w-fit h-fit flex justify-start items-center duration-150 transition-all   text-zinc-300 hover:text-white font-semibold focus:text-white' onClick={() => toggleDropdown('resources')} aria-haspopup="true" aria-expanded={navbarState === 'resources'}>
@@ -85,13 +109,13 @@ const DarkNavbar = ({ isScrolled, navbarRef, toggleDropdown, navbarState, closeA
                                 transition={{ duration: 0.3 }}
                             >
                                 <li>
-                                    <NavLink to='/faq' onClick={() => handleDefault('/q&a')} className={({ isActive }) => isActive ? `w-full h-8 flex items-center text-white font-medium` : `w-full h-8 items-center flex text-zinc-300 hover:text-white font-medium duration-150 transition-all`} aria-label="FAQ" >FAQ</NavLink>
+                                    <NavLink to='/faq' onClick={() => handleDefault('/q&a')} className={({ isActive }) => isActive ? `w-full h-8 flex items-center text-white font-semibold` : `w-full h-8 items-center flex text-zinc-300 hover:text-white font-semibold duration-150 transition-all`} aria-label="FAQ" >FAQ</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/support' onClick={() => handleDefault('/support')} className={({ isActive }) => isActive ? `w-full h-8 flex items-center text-white font-medium` : `w-full h-8 items-center flex text-zinc-300 hover:text-white font-medium duration-150 transition-all`} aria-label="Support">Support</NavLink>
+                                    <NavLink to='/support' onClick={() => handleDefault('/support')} className={({ isActive }) => isActive ? `w-full h-8 flex items-center text-white font-semibold` : `w-full h-8 items-center flex text-zinc-300 hover:text-white font-semibold duration-150 transition-all`} aria-label="Support">Support</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to='/contactus' onClick={() => handleDefault('/contactus')} className={({ isActive }) => isActive ? `w-full h-8 flex items-center text-white font-medium  ` : ` w-full h-8 items-center flex text-zinc-300 hover:text-white font-medium duration-150 transition-all`} aria-label="Contact Us">Contact Us</NavLink>
+                                    <NavLink to='/contactus' onClick={() => handleDefault('/contactus')} className={({ isActive }) => isActive ? `w-full h-8 flex items-center text-white font-semibold ` : ` w-full h-8 items-center flex text-zinc-300 hover:text-white font-semibold duration-150 transition-all`} aria-label="Contact Us">Contact Us</NavLink>
                                 </li>
                             </motion.ul>}
                         </AnimatePresence>
