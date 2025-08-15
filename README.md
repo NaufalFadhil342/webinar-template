@@ -62,7 +62,7 @@ Mitnar is a modern and responsive React template designed especially for webinar
    yarn preview
    ```
 
-## CHANGELOG
+## Changelog
 
 **Version 1.0.0 (August 2025)**
 
@@ -73,3 +73,11 @@ Mitnar is a modern and responsive React template designed especially for webinar
 - Responsive design for all devices
 - Dark/Light mode toggle
 - Comprehensive documentation
+
+## Contact Information
+
+If you encounter any issue or need customization help, please feel free to contact us:
+
+- Author: Naufal Fadhil
+- Email: naufalfadhil342@gmail.com
+- Linkedin: https://www.linkedin.com/in/muhammad-naufal-fadhil-rahmat/
